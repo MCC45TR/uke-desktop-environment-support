@@ -1,0 +1,15 @@
+NextKDE core packaging notices
+
+Main project: GNU GPL version 3 (root LICENSE).
+KWin Glass, Stage Animation and continuousclip.cpp: GPL-2.0-or-later
+(as marked in source headers; GPL-3.0 text also supplied by Glass).
+SurfaceShape Wayland protocol: MIT (license grant in protocol XML).
+David Li Flow wallpaper: MIT, Copyright (c) 2014 David Li.
+Eric Bruneton black-hole wallpaper/shaders: BSD-3-Clause, Copyright (c) 2020 Eric Bruneton.
+Cam16Hct.mjs identifies a port of material-color-utilities:
+Apache-2.0, Copyright 2021 Google LLC. Its original attribution is retained.
+Go fsnotify v1.10.1: BSD-3-Clause (vendor LICENSE).
+Go x/sys v0.13.0: BSD-3-Clause (vendor LICENSE/PATENTS).
+
+This inventory covers the selected core binary package, not optional apps,
+SDKs, models or every source-only file in the upstream source archive.
