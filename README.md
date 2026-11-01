@@ -8,7 +8,7 @@ the current target. This repository is intended to be checked out as the
 | Directory | Status |
 | --- | --- |
 | [cutefish](cutefish/README.md) | Existing pinned Cutefish RPM packaging, migrated without payload changes. |
-| [kde-next](kde-next/README.md) | Reserved for transfer of the previously prepared NextKde packaging; not yet buildable here. |
+| [kde-next](kde-next/README.md) | NextKde packaging, maintained separately from the Cutefish migration. |
 
 Run the packaging checks with RPM tools available on the host:
 
