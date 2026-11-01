@@ -6,11 +6,11 @@ rpmspec --target aarch64 -P "$spec" > /dev/null
 [[ $(rpmspec --target aarch64 -q --srpm --qf '%{NAME} %{ARCH}' "$spec") == 'cutefish-desktop aarch64' ]]
 rpmspec --target aarch64 -q --qf '[%{=NAME}|%{REQUIRENAME} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]' "$spec" | grep -Fx 'cutefish-desktop-devel|pkgconfig(libpipewire-0.3) >= 0.3.65'
 [[ $(wc -l < "$root/sources.sha256") == 10 ]]
-! grep -q 'wallpapers-\|Unsplash' "$root/sources.sha256"
+! grep -q 'wallpapers-\|Unsplash' "$root/sources.sha256" || exit 1
 grep -Eq '^auth +include +system-auth$' "$root/packaging/cutefish-auth"
 grep -Eq '^account +include +system-auth$' "$root/packaging/cutefish-auth"
-! grep -qE 'common-auth|common-account' "$root/packaging/cutefish-auth"
-! grep -qE 'systemctl (enable|disable)|fetch-skia.sh|fetch-gn' "$spec"
+! grep -qE 'common-auth|common-account' "$root/packaging/cutefish-auth" || exit 1
+! grep -qE 'systemctl (enable|disable)|fetch-skia.sh|fetch-gn' "$spec" || exit 1
 while read -r checksum archive; do
     [[ $checksum =~ ^[0-9a-f]{64}$ && $archive =~ ^[a-z0-9-]+\.tar\.gz$ ]]
     grep -Fq -- "$archive" "$spec"
