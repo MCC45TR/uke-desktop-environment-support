@@ -62,3 +62,9 @@ names. Calendar carries a narrowly scoped source adaptation, clones borrowed
 rules before modification and releases references with RAII. The original
 Fedora libical RPM remains the provider. The COPR build enables upstream core
 recurrence tests; their actual results must be recorded before image delivery.
+
+Independent signed-RPM file comparison rejected the first Uke session-config
+RPM: it duplicated the upstream portal routing path with different contents.
+Session-config release 2 removes that duplicate and keeps upstream's own
+Cutefish-only portal routing. The failed ownership audit is retained; no image
+was composed from the conflicting set.
