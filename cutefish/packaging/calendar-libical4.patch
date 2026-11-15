@@ -2,10 +2,10 @@
 +++ b/src/eventfile.cpp
 @@ -300 +300 @@
 -            series.days = icaldurationtype_as_int(icalproperty_get_duration(duration)) / 86400;
-+            series.days = icaldurationtype_as_seconds(icalproperty_get_duration(duration)) / 86400;
++            series.days = icaldurationtype_as_utc_seconds(icalproperty_get_duration(duration)) / 86400;
 @@ -306 +306 @@
 -            series.seconds = icaldurationtype_as_int(icalproperty_get_duration(duration));
-+            series.seconds = icaldurationtype_as_seconds(icalproperty_get_duration(duration));
++            series.seconds = icaldurationtype_as_utc_seconds(icalproperty_get_duration(duration));
 @@ -397,0 +398,14 @@
 +// Libical 4 owns recurrence rules by reference. Keep an independent copy so
 +// display/iteration never mutates the event's stored RRULE.
@@ -191,13 +191,13 @@
 +    trigger.duration = icaldurationtype_from_seconds(data.alarmOffset * 60);
 @@ -649 +659 @@
 -    const int seconds = icaldurationtype_as_int(trigger.duration);
-+    const int seconds = icaldurationtype_as_seconds(trigger.duration);
++    const int seconds = icaldurationtype_as_utc_seconds(trigger.duration);
 @@ -670 +680 @@
 -        times.push_back((fromEnd ? end : start).addSecs(icaldurationtype_as_int(trigger.duration)));
-+        times.push_back((fromEnd ? end : start).addSecs(icaldurationtype_as_seconds(trigger.duration)));
++        times.push_back((fromEnd ? end : start).addSecs(icaldurationtype_as_utc_seconds(trigger.duration)));
 @@ -698 +708 @@
 -                const int seconds = icaldurationtype_as_int(icalproperty_get_trigger(property).duration);
-+                const int seconds = icaldurationtype_as_seconds(icalproperty_get_trigger(property).duration);
++                const int seconds = icaldurationtype_as_utc_seconds(icalproperty_get_trigger(property).duration);
 @@ -793 +803 @@
 -            icalcomponent* copy = icalcomponent_new_clone(event);
 +            icalcomponent* copy = icalcomponent_clone(event);
@@ -206,7 +206,7 @@
 +                    icalcomponent_add_component(target, icalcomponent_clone(zone));
 @@ -856 +866 @@
 -        info.refreshSeconds = std::max(0, icaldurationtype_as_int(interval));
-+        info.refreshSeconds = std::max(0, icaldurationtype_as_seconds(interval));
++        info.refreshSeconds = std::max(0, icaldurationtype_as_utc_seconds(interval));
 @@ -883 +893 @@
 -    return std::unique_ptr<EventFile>(new EventFile(icalcomponent_new_clone(m_calendar)));
 +    return std::unique_ptr<EventFile>(new EventFile(icalcomponent_clone(m_calendar)));

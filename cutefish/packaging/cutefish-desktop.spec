@@ -24,6 +24,11 @@ Requires:       cutefish-calculator >= 1.0^20261115
 Requires:       cutefish-preview >= 1.0^20261115
 Requires:       cutefish-qt-plugins >= 1.0^20261115
 Requires:       xdg-desktop-portal-cutefish >= 1.0^20261115
+Requires:       accountsservice polkit gsettings-desktop-schemas xdg-user-dirs
+Requires:       NetworkManager bluez upower power-profiles-daemon udisks2 fuse3
+Requires:       pipewire pipewire-pulseaudio wireplumber gnome-keyring gnome-keyring-pam
+Requires:       xdg-desktop-portal xorg-x11-server-Xwayland adwaita-icon-theme
+Requires:       glibc-locale-source glibc-langpack-en
 
 %description
 Install the upstream Cutefish desktop and core applications from separate RPMs.

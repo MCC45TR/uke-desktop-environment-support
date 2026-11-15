@@ -18,8 +18,12 @@ closure, native first-account setup and image composition remain in progress.
 
 Upstream source and branding belong to [Cutefish](https://github.com/cutefishos).
 Unsplash wallpapers, the Debian installer, optional computer-control server
-and WebKit are excluded from the default image. Existing Fedora 44/45 builds
-and the old desktop remain available while the Rawhide migration qualifies.
+and WebKit are excluded from the default image. The old desktop remains available while the Rawhide migration qualifies.
+Initial API requests used the Swagger `chroot_names` field, which the actual
+form ignored, so those builds also ran for Fedora 44/45. Later requests use
+`chroots`, with the sole Rawhide target verified from returned build state.
+The new desktop metapackage is released only to Rawhide after qualification;
+Fedora 44/45 are not image targets or qualified upgrade claims in this work.
 Installing the display-manager RPM must not enable it or switch desktops.
 
 To prepare one source RPM, without compiling any binary:

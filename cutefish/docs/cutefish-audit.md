@@ -22,8 +22,10 @@ must be published before consumers are built. The desktop metapackage is
 published only after the entire runtime set succeeds and is visible to DNF.
 The old desktop-development selection is preserved as a small compatibility
 metapackage. The optional Plymouth data RPM no longer requires an exact old
-monolithic desktop, preserving the old suite's upgrade closure. Existing
-Fedora 44/45 repositories remain unchanged.
+monolithic desktop, preserving the old suite's upgrade closure. The initial target-selection field was ignored by the frontend, so those jobs
+also emitted Fedora 44/45 results. Subsequent requests use the actual `chroots`
+form field and verify the sole Rawhide target. No new desktop metapackage is
+published for Fedora 44/45; those targets have no new image acceptance.
 
 Source locks include Skia m156, the exact PDFium 8158 directories used by the
 framework, Chromium build headers, dragonbox, fast_float and their licenses.

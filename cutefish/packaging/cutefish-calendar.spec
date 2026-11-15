@@ -1,6 +1,6 @@
 Name:           cutefish-calendar
 Version:        1.0^20261115
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Upstream Cutefish calendar for Fedora
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos/calendar
@@ -62,6 +62,10 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %license LICENSES
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-4
+- Preserve nominal day/week conversion using the libical 4 UTC duration API.
+- Retain the upstream subscription-refresh regression test.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-3
 - Complete the libical 4 enum, clone and duration API mapping.
 
