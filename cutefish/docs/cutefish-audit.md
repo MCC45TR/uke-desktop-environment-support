@@ -84,3 +84,10 @@ cohort. This includes development and optional data packages; the image profile
 selects only its explicit runtime closure. The source-generated firstboot
 validator passed in the native COPR build; GUI/PAM/systemd runtime acceptance
 remains open.
+
+COPR retains 24 exact qualified source definitions with automatic rebuilding
+disabled; [qualified-producers.tsv](qualified-producers.tsv) records each source
+commit and worker-script digest. Changed sources require a new RPM release and
+qualification before promotion. Fedora 44/45 are denied for these new producers.
+The existing optional computer-use producer remains separate and excluded.
+The project description and installation notes now describe this migration.
