@@ -1,7 +1,7 @@
 # Rawhide split-package and image audit
 
-15 November 2026. Source qualification in progress. No image or hardware
-acceptance is established by this source record.
+15 November 2026. Native Rawhide AArch64 RPM qualification completed. No image or hardware
+acceptance is established by this package record.
 
 | Area | Existing state | New source policy |
 | --- | --- | --- |
@@ -42,7 +42,7 @@ no user/home is deleted. The completion file is synchronized only after
 account, password, locale, timezone and wheel setup succeed. The GUI has no
 root shell, useradd permission or reusable administrative authorization.
 
-Required remaining evidence: offline native builds and signatures; fresh-root
+Required remaining evidence: fresh-root
 DNF installation and upgrade from the old desktop/suite; no KDE/GDM/GNOME
 Shell in the installed closure; PAM, systemd and SELinux; first-account
 interruption/refusal/success tests; normal/greeter touch keyboard; Cutefish
@@ -61,12 +61,12 @@ Fedora libical 4 changes recurrence ownership, arrays and several function
 names. Calendar carries a narrowly scoped source adaptation, clones borrowed
 rules before modification and releases references with RAII. The original
 Fedora libical RPM remains the provider. The COPR build enables upstream core
-recurrence tests; their actual results must be recorded before image delivery.
+recurrence tests; all 44 core recurrence tests passed in build 11331118.
 
 Independent signed-RPM file comparison rejected the first Uke session-config
 RPM: it duplicated the upstream portal routing path with different contents.
 Session-config release 2 removes that duplicate and keeps upstream's own
-Cutefish-only portal routing. The failed ownership audit is retained; no image
+portal routing. The failed ownership audit is retained; no image
 was composed from the conflicting set.
 
 The upstream portal configuration selects GTK for unimplemented interfaces,
@@ -74,3 +74,13 @@ Cutefish for Settings/FileChooser/Inhibit/ScreenCast and GNOME Keyring for
 Secret. The desktop metapackage explicitly requires original Fedora's GTK
 backend. Upstream advertises no Screenshot portal interface; the separate
 native screenshot utility and ScreenCast still require physical validation.
+
+The qualified set contains 28 non-debug signed AArch64/noarch RPMs from 24
+source builds. Repository primary checksums, individual SHA-256 values and
+signatures were verified with the sole pinned Cutefish signing key. Comparing
+1,702 regular file paths found no conflicting payloads.
+[qualified-rpms.tsv](qualified-rpms.tsv) records the exact package/build/hash
+cohort. This includes development and optional data packages; the image profile
+selects only its explicit runtime closure. The source-generated firstboot
+validator passed in the native COPR build; GUI/PAM/systemd runtime acceptance
+remains open.
