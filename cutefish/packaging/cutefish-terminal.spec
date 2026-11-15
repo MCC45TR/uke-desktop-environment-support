@@ -1,6 +1,6 @@
 Name:           cutefish-terminal
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish terminal for Fedora
 License:        GPL-3.0-or-later AND LGPL-2.0-or-later AND BSD-3-Clause
 URL:            https://github.com/cutefishos/terminal
@@ -17,6 +17,7 @@ BuildRequires:  findutils
 BuildRequires:  coreutils
 BuildRequires:  cutefish-toolkit-devel >= 1.0^20261115
 BuildRequires:  pkgconfig(icu-uc)
+BuildRequires:  pkgconfig(libpcre2-16)
 Requires:       cutefish-toolkit >= 1.0^20261115
 Conflicts:      cutefish-desktop < 1.0^20261115
 
@@ -55,5 +56,8 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %license LICENSES
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Declare the terminal view PCRE2 build dependency.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Split the pinned nightly source into an independently built Fedora RPM.
