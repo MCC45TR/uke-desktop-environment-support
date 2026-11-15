@@ -1,6 +1,6 @@
 Name:           cutefish-qt-plugins
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish qt-plugins for Fedora
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos/qt-plugins
@@ -61,5 +61,8 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %license LICENSES
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Apply the Fedora Qt adaptation inside the separate upstream source tree.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Split the pinned nightly source into an independently built Fedora RPM.

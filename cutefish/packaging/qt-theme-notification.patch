@@ -1,5 +1,5 @@
---- a/qt-plugins/platformtheme/platformtheme.cpp
-+++ b/qt-plugins/platformtheme/platformtheme.cpp
+--- a/platformtheme/platformtheme.cpp
++++ b/platformtheme/platformtheme.cpp
 @@ -56,9 +56,7 @@
              &PlatformTheme::onFontChanged);
      connect(m_hints, &HintsSettings::iconThemeChanged, this, &PlatformTheme::onIconThemeChanged);

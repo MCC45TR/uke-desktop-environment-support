@@ -1,6 +1,6 @@
 Name:           uke-cutefish-firstboot
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Credentials-free first-account setup for the Uke Cutefish image
 License:        BSD-3-Clause
 URL:            https://github.com/MCC45TR/uke-desktop-environment-support
@@ -21,7 +21,7 @@ BuildRequires:  gcc-c++ cmake ninja-build qt6-qtbase-devel pkgconfig(pwquality)
 BuildRequires:  systemd-rpm-macros
 Requires:       cutefish-dm >= 1.0^20261115
 Requires:       cutefish-compositor >= 1.0^20261115
-Requires:       dbus-daemon shadow-utils systemd systemd-pam libpwquality
+Requires:       dbus-daemon shadow-utils systemd systemd-pam libpwquality qt6-qtwayland
 Requires(pre):  /usr/bin/systemd-sysusers
 
 %description
@@ -74,5 +74,8 @@ SYSUSERS
 %attr(0700,uke-setup,uke-setup) %dir %{_localstatedir}/lib/uke-cutefish-setup
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-2
+- Avoid the libc timezone symbol and require the original Fedora Wayland plugin.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-1
 - Add a dedicated first-account session and narrowly scoped provisioner.

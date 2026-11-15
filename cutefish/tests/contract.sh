@@ -12,7 +12,7 @@ for spec in "$root/packaging/"*.spec; do
     ! awk '/^%prep/{code=1} /^%files/{code=0} code{print}' "$spec" | grep -E 'curl |git clone|fetch-skia[.]sh|fetch-pdfium[.]sh' || exit 1
     ! grep -E 'systemctl (enable|disable)|--nogpgcheck' "$spec" || exit 1
 done
-while IFS=$'\t' read -r checksum archive url; do
+while IFS=$'\t' read -r checksum archive url normalization; do
     [[ $checksum =~ ^[0-9a-f]{64}$ && $archive =~ ^[A-Za-z0-9._-]+$ && $url == https://* ]]
     jq -e --arg name "$archive" --arg sha "$checksum" --arg url "$url" '.sources|any(.[];.archive==$name and .sha256==$sha and .url==$url)' "$root/sources.lock.json" >/dev/null
 done < "$root/sources.tsv"

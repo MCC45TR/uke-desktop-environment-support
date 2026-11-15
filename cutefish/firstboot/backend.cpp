@@ -34,7 +34,7 @@ bool clean(const std::string &s, size_t maximum) {
 bool username(const std::string &s) {
     return std::regex_match(s, std::regex("[a-z_][a-z0-9_-]{0,31}"));
 }
-bool timezone(const std::string &s) {
+bool validTimezone(const std::string &s) {
     return s == "UTC" || std::regex_match(s, std::regex("[A-Za-z_+-]+(/[A-Za-z0-9_+-]+){1,3}"));
 }
 void exactRead(int fd, char *p, size_t n) {
@@ -74,7 +74,9 @@ int run(const std::vector<std::string> &args, const std::string *input=nullptr) 
     if(input) {
         close(pipefd[0]);size_t offset=0;while(offset<input->size()) {
             ssize_t n=write(pipefd[1],input->data()+offset,input->size()-offset);
-            if(n<0 && errno==EINTR)continue;if(n<=0)break;offset+=n;
+            if(n<0 && errno==EINTR)continue;
+            if(n<=0)break;
+            offset+=n;
         } close(pipefd[1]);
     }
     int status=0;while(waitpid(pid,&status,0)<0){if(errno!=EINTR)return 125;}
@@ -83,8 +85,8 @@ int run(const std::vector<std::string> &args, const std::string *input=nullptr) 
 int selftest() {
     for(const auto *s:{"root:evil","-root","../alice","Alice","","a\nb","a b"})if(username(s))return 1;
     for(const auto *s:{"alice","alice-1","user_2"})if(!username(s))return 1;
-    for(const auto *s:{"../etc/passwd","Europe/../../etc","/etc/passwd","Europe//Paris","Europe/Paris\n"})if(timezone(s))return 1;
-    for(const auto *s:{"Europe/Istanbul","UTC","America/Argentina/Buenos_Aires"})if(!timezone(s))return 1;
+    for(const auto *s:{"../etc/passwd","Europe/../../etc","/etc/passwd","Europe//Paris","Europe/Paris\n"})if(validTimezone(s))return 1;
+    for(const auto *s:{"Europe/Istanbul","UTC","America/Argentina/Buenos_Aires"})if(!validTimezone(s))return 1;
     if(clean(std::string("a\0b",3),32)||clean("line\n",32)||clean(std::string(129,'a'),128))return 1;
     return 0;
 }
@@ -103,7 +105,7 @@ int main(int argc,char **argv) {
         std::string locale=field(32),zone=field(128);
         need(username(user) && name.find(':')==std::string::npos,"Invalid account name");
         need(locale=="tr_TR.UTF-8" || locale=="en_US.UTF-8","Unsupported locale");
-        need(timezone(zone),"Invalid timezone");
+        need(validTimezone(zone),"Invalid timezone");
         struct stat st{};need(lstat(state,&st)==0 && S_ISDIR(st.st_mode) && st.st_uid==0 && (st.st_mode&0777)==0700,"Unsafe state directory");
         std::string base=state;need(lstat((base+"/done").c_str(),&st)<0 && errno==ENOENT,"Setup already completed");
         int lock=open((base+"/lock").c_str(),O_CREAT|O_RDWR|O_NOFOLLOW|O_CLOEXEC,0600);

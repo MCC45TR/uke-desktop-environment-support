@@ -16,13 +16,16 @@ while read -r tag value _rest; do
             url=${value%#/*}
             [[ $archive =~ ^[A-Za-z0-9._@-]+$ ]]
             record=$(awk -F '\t' -v file="$archive" '$2==file {print; n++} END {if(n!=1)exit 1}' "$root/sources.tsv")
-            IFS=$'\t' read -r checksum _name locked_url <<< "$record"
+            IFS=$'\t' read -r checksum _name locked_url normalization <<< "$record"
             [[ $url == "$locked_url" && $checksum =~ ^[0-9a-f]{64}$ ]]
             if [[ -f $root/referances/$archive ]]; then
                 cp --reflink=auto "$root/referances/$archive" "$out/$archive"
             else
                 curl --proto '=https' --tlsv1.2 -fL --retry 3 --max-time 600 "$url" -o "$out/$archive.part"
-                mv "$out/$archive.part" "$out/$archive"
+                if [[ ${normalization:-none} == gitiles-gnu-tar-mtime0-gzip9 ]]; then
+                    bash "$root/normalize-gitiles.sh" "$out/$archive.part" "$out/$archive"
+                    rm "$out/$archive.part"
+                else mv "$out/$archive.part" "$out/$archive"; fi
             fi
             printf '%s  %s\n' "$checksum" "$out/$archive" | sha256sum --check --strict
             ;;
