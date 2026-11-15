@@ -1,6 +1,6 @@
 Name:           cutefish-core
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish core for Fedora
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos/cutefish-core
@@ -31,6 +31,16 @@ Requires:       PackageKit
 Requires:       gsettings-desktop-schemas
 Requires:       xdg-user-dirs
 Conflicts:      cutefish-desktop < 1.0^20261115
+
+BuildRequires:  pkgconfig(gbm)
+BuildRequires:  pkgconfig(libavcodec)
+BuildRequires:  pkgconfig(libavformat)
+BuildRequires:  pkgconfig(libavutil)
+BuildRequires:  pkgconfig(libdrm)
+BuildRequires:  pkgconfig(libpipewire-0.3)
+BuildRequires:  pkgconfig(libswscale)
+BuildRequires:  pkgconfig(libva)
+BuildRequires:  pkgconfig(wayland-server)
 
 %description
 cutefish-core built from the exact upstream revision recorded in sources.lock.json.
@@ -67,5 +77,8 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %license LICENSES
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Declare the media, capture and GBM dependencies of the core service targets.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Split the pinned nightly source into an independently built Fedora RPM.
