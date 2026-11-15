@@ -68,3 +68,9 @@ RPM: it duplicated the upstream portal routing path with different contents.
 Session-config release 2 removes that duplicate and keeps upstream's own
 Cutefish-only portal routing. The failed ownership audit is retained; no image
 was composed from the conflicting set.
+
+The upstream portal configuration selects GTK for unimplemented interfaces,
+Cutefish for Settings/FileChooser/Inhibit/ScreenCast and GNOME Keyring for
+Secret. The desktop metapackage explicitly requires original Fedora's GTK
+backend. Upstream advertises no Screenshot portal interface; the separate
+native screenshot utility and ScreenCast still require physical validation.

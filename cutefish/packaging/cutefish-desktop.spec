@@ -1,6 +1,6 @@
 Name:           cutefish-desktop
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cutefish Wayland desktop and core application set
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos
@@ -27,7 +27,7 @@ Requires:       xdg-desktop-portal-cutefish >= 1.0^20261115
 Requires:       accountsservice polkit gsettings-desktop-schemas xdg-user-dirs
 Requires:       NetworkManager bluez upower power-profiles-daemon udisks2 fuse3
 Requires:       pipewire pipewire-pulseaudio wireplumber gnome-keyring gnome-keyring-pam
-Requires:       xdg-desktop-portal xorg-x11-server-Xwayland adwaita-icon-theme
+Requires:       xdg-desktop-portal xdg-desktop-portal-gtk xorg-x11-server-Xwayland adwaita-icon-theme
 Requires:       glibc-locale-source glibc-langpack-en
 
 %description
@@ -58,5 +58,8 @@ install -Dm644 sources.lock.json %{buildroot}%{_docdir}/%{name}/sources.lock.jso
 %license LICENSE
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Install the original Fedora GTK backend required by upstream portal routing.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Replace the monolithic payload with the full independently built RPM set.
