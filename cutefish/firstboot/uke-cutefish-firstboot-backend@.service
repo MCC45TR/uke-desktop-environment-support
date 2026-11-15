@@ -1,0 +1,24 @@
+[Unit]
+Description=Uke first-account setup request
+ConditionPathExists=!/var/lib/uke-cutefish-firstboot/done
+
+[Service]
+ExecStart=/usr/libexec/uke-cutefish-firstboot-backend
+StandardInput=socket
+StandardOutput=socket
+StandardError=journal
+StateDirectory=uke-cutefish-firstboot
+StateDirectoryMode=0700
+UMask=0077
+TimeoutStartSec=120
+RuntimeMaxSec=120
+LimitCORE=0
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ReadWritePaths=/etc /home /var/lib
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX

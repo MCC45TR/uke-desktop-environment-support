@@ -1,0 +1,11 @@
+[Unit]
+Description=Uke first-account setup request socket
+ConditionPathExists=!/var/lib/uke-cutefish-firstboot/done
+
+[Socket]
+ListenStream=/run/uke-cutefish-firstboot.sock
+SocketUser=uke-setup
+SocketMode=0600
+Accept=yes
+MaxConnections=2
+RemoveOnStop=yes

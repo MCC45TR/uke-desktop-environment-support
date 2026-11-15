@@ -1,0 +1,26 @@
+[Unit]
+Description=Uke Cutefish first-account setup
+ConditionPathExists=!/var/lib/uke-cutefish-firstboot/done
+Requires=uke-cutefish-firstboot.socket
+After=uke-cutefish-firstboot.socket systemd-user-sessions.service systemd-logind.service
+Before=cutefish-dm.service
+Conflicts=getty@tty1.service
+After=getty@tty1.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=uke-setup
+Group=uke-setup
+PAMName=cutefish-dm-greeter
+TTYPath=/dev/tty1
+StandardInput=tty
+StandardOutput=journal
+TTYReset=yes
+TTYVHangup=yes
+Environment=XDG_SESSION_TYPE=wayland XDG_SESSION_CLASS=greeter XDG_SEAT=seat0 XDG_VTNR=1
+Environment=QT_QPA_PLATFORM=wayland XDG_CURRENT_DESKTOP=Cutefish
+ExecStart=/usr/libexec/uke-cutefish-firstboot-session
+ExecStartPost=+/usr/bin/systemctl --no-block stop uke-cutefish-firstboot.socket
+TimeoutStartSec=infinity
+LimitCORE=0

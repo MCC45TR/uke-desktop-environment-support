@@ -14,7 +14,7 @@ while read -r tag value _rest; do
         https://*\#/*)
             archive=${value##*#/}
             url=${value%#/*}
-            [[ $archive =~ ^[A-Za-z0-9._-]+$ ]]
+            [[ $archive =~ ^[A-Za-z0-9._@-]+$ ]]
             record=$(awk -F '\t' -v file="$archive" '$2==file {print; n++} END {if(n!=1)exit 1}' "$root/sources.tsv")
             IFS=$'\t' read -r checksum _name locked_url <<< "$record"
             [[ $url == "$locked_url" && $checksum =~ ^[0-9a-f]{64}$ ]]
@@ -28,8 +28,10 @@ while read -r tag value _rest; do
             ;;
         *://*) echo 'Unpinned source URL' >&2; exit 1;;
         *)
-            [[ $value =~ ^[A-Za-z0-9._-]+$ ]]
+            [[ $value =~ ^[A-Za-z0-9._@-]+$ ]]
             if [[ -f $root/packaging/$value ]]; then cp "$root/packaging/$value" "$out/"
+            elif [[ -f $root/firstboot/$value ]]; then cp "$root/firstboot/$value" "$out/"
+            elif [[ -f $root/session/$value ]]; then cp "$root/session/$value" "$out/"
             else cp "$root/$value" "$out/"; fi
             ;;
     esac
