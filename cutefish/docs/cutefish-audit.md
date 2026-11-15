@@ -91,3 +91,8 @@ commit and worker-script digest. Changed sources require a new RPM release and
 qualification before promotion. Fedora 44/45 are denied for these new producers.
 The existing optional computer-use producer remains separate and excluded.
 The project description and installation notes now describe this migration.
+
+The [migration notes](migration.md) distinguish the validated fresh-image
+transaction from an existing-user upgrade. Existing installation upgrades and
+Fedora 44/45 transitions remain unqualified. No old producer was retired on the
+basis of the fresh-root image result.
