@@ -1,6 +1,6 @@
 Name:           uke-cutefish-firstboot
 Version:        1.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Credentials-free first-account setup for the Uke Cutefish image
 License:        BSD-3-Clause
 URL:            https://github.com/MCC45TR/uke-desktop-environment-support
@@ -74,6 +74,9 @@ SYSUSERS
 %attr(0700,uke-setup,uke-setup) %dir %{_localstatedir}/lib/uke-cutefish-setup
 
 %changelog
+* Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-3
+- Respect the image composer useradd shell default for the first account.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-2
 - Avoid the libc timezone symbol and require the original Fedora Wayland plugin.
 

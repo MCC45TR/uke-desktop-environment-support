@@ -131,7 +131,7 @@ int main(int argc,char **argv) {
         int score=pwquality_check(quality,password.c_str(),nullptr,user.c_str(),nullptr);pwquality_free_settings(quality);
         need(password.size()>=12 && score>=0,"Choose a stronger password with at least 12 characters");
         if(pending.empty())save(base+"/pending",user);
-        if(count==0)need(run({"/usr/sbin/useradd","--create-home","--groups","wheel","--shell","/bin/bash","--comment",name,"--",user})==0,"Account creation failed; retry with the same name");
+        if(count==0)need(run({"/usr/sbin/useradd","--create-home","--groups","wheel","--comment",name,"--",user})==0,"Account creation failed; retry with the same name");
         std::string line=user+":"+password+"\n";
         int status=run({"/usr/sbin/chpasswd"},&line);wipe(line);wipe(password);need(status==0,"Password policy refused; retry with the same name");
         need(run({"/usr/bin/localectl","set-locale","LANG="+locale})==0,"Locale setup failed; retry with the same name");

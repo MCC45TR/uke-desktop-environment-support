@@ -47,3 +47,16 @@ interruption/refusal/success tests; normal/greeter touch keyboard; Cutefish
 applications, GPU/DRM, scaling, clipboard and portals on the physical Uke.
 Test artifacts must remain explicitly hardware-untested; publication is gated
 on a separate physical acceptance record.
+
+Gitiles archive responses varied in request-time tar metadata. Release 2 of the
+framework normalizes GNU tar owner/group/time headers and gzip time while
+preserving source bytes, modes and links. Two independently retrieved constants
+archives produce identical normalized bytes. The normalized archive SHA-256 is
+sealed in the spec and lock; the first observed download hash is retained as
+provenance. Source workers perform exactly the same normalization before checks.
+
+Fedora libical 4 changes recurrence ownership, arrays and several function
+names. Calendar carries a narrowly scoped source adaptation, clones borrowed
+rules before modification and releases references with RAII. The original
+Fedora libical RPM remains the provider. The COPR build enables upstream core
+recurrence tests; their actual results must be recorded before image delivery.
