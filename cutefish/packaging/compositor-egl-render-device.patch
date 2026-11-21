@@ -1,0 +1,59 @@
+--- a/src/render/egl_dmabuf_importer.cpp
++++ b/src/render/egl_dmabuf_importer.cpp
+@@ -18,6 +18,35 @@
+
+ namespace {
+
++dev_t eglRenderDevice(EGLDisplay display)
++{
++    const char *clientExtensions = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
++    if (!clientExtensions || !hasExtension(clientExtensions, "EGL_EXT_device_query"))
++        return 0;
++
++    const auto queryDisplayAttrib = reinterpret_cast<PFNEGLQUERYDISPLAYATTRIBEXTPROC>(
++            eglGetProcAddress("eglQueryDisplayAttribEXT"));
++    const auto queryDeviceString = reinterpret_cast<PFNEGLQUERYDEVICESTRINGEXTPROC>(
++            eglGetProcAddress("eglQueryDeviceStringEXT"));
++    EGLAttrib deviceAttribute = 0;
++    if (!queryDisplayAttrib || !queryDeviceString
++        || !queryDisplayAttrib(display, EGL_DEVICE_EXT, &deviceAttribute) || !deviceAttribute)
++        return 0;
++
++    const auto device = reinterpret_cast<EGLDeviceEXT>(deviceAttribute);
++    const char *deviceExtensions = queryDeviceString(device, EGL_EXTENSIONS);
++    if (!deviceExtensions || !hasExtension(deviceExtensions, "EGL_EXT_device_drm_render_node"))
++        return 0;
++
++    const char *node = queryDeviceString(device, EGL_DRM_RENDER_NODE_FILE_EXT);
++    struct stat info = {};
++    if (!node || stat(node, &info) != 0 || !S_ISCHR(info.st_mode))
++        return 0;
++
++    CF_INFO(cfRender) << "DMA-BUF client render node:" << node;
++    return info.st_rdev;
++}
++
+ bool drmFormatHasAlpha(uint32_t format)
+ {
+     switch (format) {
+@@ -67,12 +96,14 @@
+         return;
+     }
+
+-    // The device clients should allocate on. Without it the protocol falls back
+-    // to the pre-feedback version.
+-    struct stat deviceStat = {};
+-    const int gbmFd = device ? gbm_device_get_fd(device) : -1;
+-    if (gbmFd >= 0 && fstat(gbmFd, &deviceStat) == 0)
+-        m_dmaBufMainDevice = deviceStat.st_rdev;
++    // A display-only KMS node can own GBM while EGL uses a separate GPU.
++    // Advertise EGL's render device so clients allocate on that GPU.
++    m_dmaBufMainDevice = eglRenderDevice(m_context->display());
++    if (!m_dmaBufMainDevice && device) {
++        struct stat deviceStat = {};
++        if (fstat(gbm_device_get_fd(device), &deviceStat) == 0)
++            m_dmaBufMainDevice = deviceStat.st_rdev;
++    }
+
+     auto queryFormats = reinterpret_cast<PFNEGLQUERYDMABUFFORMATSEXTPROC>(
+             eglGetProcAddress("eglQueryDmaBufFormatsEXT"));

@@ -1,6 +1,6 @@
 Name:           cutefish-compositor
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish compositor for Fedora
 License:        BSD-3-Clause AND MIT
 URL:            https://github.com/cutefishos/cutefish-compositor
@@ -8,6 +8,7 @@ ExclusiveArch:  aarch64
 Source0:        https://codeload.github.com/cutefishos/cutefish-compositor/tar.gz/1d3b480db10a1317c4591ed10684848896a441e1#/cutefish-compositor-1d3b480db10a1317c4591ed10684848896a441e1.tar.gz
 Source100:      sources.lock.json
 Source1:        cutefish-auth
+Patch0:         compositor-egl-render-device.patch
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  ninja-build
@@ -56,6 +57,7 @@ services or select a desktop. Hardware and graphical acceptance are separate.
 %prep
 printf '%s  %s\n' '6f396436cf3360fac874efe2f9cd5998e4741911c0d82a902df580063ba8593c' '%{SOURCE0}' | sha256sum -c -
 %setup -q -n cutefish-compositor-1d3b480db10a1317c4591ed10684848896a441e1
+%patch -P 0 -p1
 
 %build
 %cmake -DBUILD_TESTING=OFF
@@ -84,5 +86,8 @@ test ! -d %{buildroot}%{_datadir}/backgrounds/cutefishos
 %license LICENSES
 
 %changelog
+* Sat Nov 21 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Advertise EGL's GPU render node for Wayland DMA-BUF allocation.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Split the pinned nightly source into an independently built Fedora RPM.
