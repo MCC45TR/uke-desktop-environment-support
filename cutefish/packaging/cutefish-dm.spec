@@ -1,6 +1,6 @@
 Name:           cutefish-dm
 Version:        1.0^20261115
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Upstream Cutefish dm for Fedora
 License:        BSD-3-Clause
 URL:            https://github.com/cutefishos/cutefish-dm
@@ -10,6 +10,7 @@ Source100:      sources.lock.json
 Source1:        cutefish-dm
 Source2:        cutefish-dm-greeter
 Source3:        cutefish-greeter.conf
+Source4:        cutefish-dm.cil
 Requires(pre):  /usr/bin/systemd-sysusers
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -26,6 +27,7 @@ Requires:       cutefish-compositor >= 1.0^20261115
 Requires:       systemd
 Requires:       pam
 Requires:       gnome-keyring-pam
+Requires:       policycoreutils selinux-policy-targeted
 Conflicts:      cutefish-desktop < 1.0^20261115
 
 %description
@@ -46,6 +48,7 @@ printf '%s  %s\n' 'b6c8436eb840d2770b754feef75126e848b24f6736c5e5da8af410302f089
 install -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pam.d/cutefish-dm
 install -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/cutefish-dm-greeter
 install -Dm644 %{SOURCE3} %{buildroot}%{_sysusersdir}/cutefish-greeter.conf
+install -Dm644 %{SOURCE4} %{buildroot}%{_datadir}/selinux/packages/cutefish-dm.cil
 install -d -m700 %{buildroot}%{_localstatedir}/lib/cutefish-greeter
 install -Dm644 %{SOURCE100} %{buildroot}%{_docdir}/%{name}/sources.lock.json
 # Retain every source-tree license and bundled-library notice with its path.
@@ -73,6 +76,26 @@ systemd-sysusers %{_sysusersdir}/cutefish-greeter.conf 2>/dev/null || systemd-sy
 u cutefish-greeter - "Cutefish display manager" /var/lib/cutefish-greeter /usr/sbin/nologin
 EOF
 
+%posttrans
+if selinuxenabled; then
+    semodule -i %{_datadir}/selinux/packages/cutefish-dm.cil || exit 1
+    restorecon %{_bindir}/cutefish-dm %{_libexecdir}/cutefish-dm-helper
+else
+    semodule -n -i %{_datadir}/selinux/packages/cutefish-dm.cil
+fi
+
+%postun
+if [ "$1" -eq 0 ]; then
+    if selinuxenabled; then
+        semodule -r cutefish-dm
+    else
+        semodule -n -r cutefish-dm
+    fi
+fi
+
 %changelog
+* Sat Nov 21 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-2
+- Use Fedora's SELinux display manager domain for the launcher and PAM helper.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0^20261115-1
 - Split the pinned nightly source into an independently built Fedora RPM.
