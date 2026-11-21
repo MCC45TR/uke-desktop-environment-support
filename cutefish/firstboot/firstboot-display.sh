@@ -1,13 +1,15 @@
 #!/usr/bin/bash
 set -Eeuo pipefail
 export WAYLAND_DISPLAY=uke-firstboot
-/usr/bin/cutefish-compositor --socket "$WAYLAND_DISPLAY" --no-xwayland &
+coproc compositor_ready {
+    exec /usr/bin/cutefish-compositor --socket "$WAYLAND_DISPLAY" --no-xwayland \
+        --ready-fd 3 3>&1 1>&2
+}
 compositor=$!
 trap 'kill "$compositor" 2>/dev/null || :; wait "$compositor" 2>/dev/null || :' EXIT
-for ((attempt=0;attempt<100;attempt++)); do
-    kill -0 "$compositor"
-    [[ ! -S $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY ]] || break
-    sleep 0.1
-done
-[[ -S $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY ]]
+ready_fd=${compositor_ready[0]:-}
+if [[ -z $ready_fd ]] || ! IFS= read -r -N 1 -t 30 -u "$ready_fd" ready || [[ $ready != R ]]; then
+    echo 'Cutefish first-account setup: compositor exited or did not initialize its display within 30 seconds.' >&2
+    exit 1
+fi
 /usr/libexec/uke-cutefish-firstboot

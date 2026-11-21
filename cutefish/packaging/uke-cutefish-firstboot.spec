@@ -1,6 +1,6 @@
 Name:           uke-cutefish-firstboot
 Version:        1.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Credentials-free first-account setup for the Uke Cutefish image
 License:        BSD-3-Clause
 URL:            https://github.com/MCC45TR/uke-desktop-environment-support
@@ -74,6 +74,9 @@ SYSUSERS
 %attr(0700,uke-setup,uke-setup) %dir %{_localstatedir}/lib/uke-cutefish-setup
 
 %changelog
+* Sat Nov 21 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-4
+- Wait for compositor display initialization before launching the first-account window.
+
 * Sun Nov 15 2026 MCC45TR <75160848+MCC45TR@users.noreply.github.com> - 1.0.0-3
 - Respect the image composer useradd shell default for the first account.
 
