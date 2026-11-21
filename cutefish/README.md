@@ -1,7 +1,11 @@
 # Cutefish Fedora packaging
 
-15 November 2026. Fedora Rawhide AArch64. The split RPM migration is in
-progress; no new image or physical desktop acceptance is claimed.
+21 November 2026. Fedora Rawhide AArch64. The signed packages are built under
+the `cutefish-desktop` COPR package in Uke Unstable. The source RPMs and
+individual binary package names are retained. [Uke Unstable Cutefish builds](https://copr.fedorainfracloud.org/coprs/mcc45tr/uke-linux-unstable/package/cutefish-desktop/)
+
+Existing Cutefish images can follow the repository switch in the
+[Uke builder guide](https://github.com/MCC45TR/uke-fedora-builder/blob/main/docs/PUBLIC-BUILD.md).
 
 Sources follow the published ARM64 nightly package list and commit manifest
 for `cutefish-1.0-nightly-20261115-1345-arm64.iso`. The ISO checksum and package
@@ -17,8 +21,8 @@ on the build host only; no project Python runtime is installed. PDFium source
 closure, native first-account setup and image composition remain in progress.
 
 Upstream source and branding belong to [Cutefish](https://github.com/cutefishos).
-Unsplash wallpapers, the Debian installer, optional computer-control server
-and WebKit are excluded from the default image. The old desktop remains available while the Rawhide migration qualifies.
+The default image excludes Unsplash wallpapers, the Debian installer, the
+optional computer-control server and WebKit.
 Initial API requests used the Swagger `chroot_names` field, which the actual
 form ignored, so those builds also ran for Fedora 44/45. Later requests use
 `chroots`, with the sole Rawhide target verified from returned build state.

@@ -1,5 +1,10 @@
 # Rawhide split-package migration
 
+21 November 2026. The split Cutefish RPMs now use `mcc45tr/uke-linux-unstable`.
+The COPR package page groups the source builds under `cutefish-desktop`.
+The RPM names and dependencies are preserved. Existing Rawhide images can use
+the [repository switch in the builder guide](https://github.com/MCC45TR/uke-fedora-builder/blob/main/docs/PUBLIC-BUILD.md).
+
 15 November 2026. The qualified image path installs a fresh Rawhide root from
 signed RPMs. It does not import an existing desktop root or execute a user
 upgrade on a tablet.
@@ -14,8 +19,8 @@ framework development packages. Image roots do not install development packages.
 
 The optional `cutefish-suite` no longer selects the computer-use agent or Debian
 installer. An agent already installed by an older suite is not automatically
-removed; its existing consent and configuration are preserved. The separate
-legacy agent source producer remains available. Plymouth data is optional and
+removed; its existing consent and configuration are preserved. This agent is
+outside the supported Cutefish desktop package set. Plymouth data is optional and
 is not activated by package installation. Uke session defaults use
 `%config(noreplace)` for persistent preferences.
 
